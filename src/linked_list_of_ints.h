@@ -65,12 +65,25 @@ node *insert_after(int v, node *t)
   return x;
 }
 
-/* prints out the linked list */
+/* prints out the linked list starting from a certain node 't' */
 void print_linked_list_recursively(node* t)
 {
-  if (t == head) exit(0);
-  if(t== z) exit(0);
-  printf("%d ", t->key);
-  printf("--> ");
-  print_linked_list_recursively(t->next);
+  if (t == head)
+  {
+    printf("HEAD ");
+    printf("--> ");
+    print_linked_list_recursively(t->next);
+  }
+
+  else if (t == z)
+  {
+    printf("TAIL");
+  }
+  
+  else 
+  {
+    printf("%d ", t->key);
+    printf("--> ");
+    print_linked_list_recursively(t->next);
+  }
 }
