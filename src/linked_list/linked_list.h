@@ -6,23 +6,23 @@
 
 /* A structure for linked list elements. */
 typedef struct ListElmt_ {
-  void             *data;
+  void *data;
   struct ListElmt_ *next;
 } ListElmt;
 
 /* A structure for linked lists */
 typedef struct List_ {
-  int       size;
+  int size;
 
   /* A function to check */
-  int       (*match)(const void *key1, const void *key2);
+  int (*match)(const void *key1, const void *key2);
 
   /* A function to destroy
    * a certain element of the linked list */
-  void      (*destroy)(void *data);
+  void (*destroy)(void *data);
 
-  ListElmt  *head;
-  ListElmt  *tail;
+  ListElmt *head;
+  ListElmt *tail;
 } List;
 
 #define list_size(list) ((list)->size)
@@ -54,7 +54,7 @@ void list_destroy(List *list) {
 
   /* Remove each element. */
   while (list_size(list) > 0) {
-    if (list_rem_next(list, NULL, (void**)&data) == 0 &&
+    if (list_rem_next(list, NULL, (void **)&data) == 0 &&
         list->destroy != NULL) {
 
       /*******************************************************************
@@ -72,36 +72,31 @@ int list_ins_next(List *list, ListElmt *element, const void *data) {
   ListElmt *new_element;
 
   /* Allocate storage for the element. */
-  if ((new_element = (ListElmt *) malloc(sizeof(ListElmt))) == NULL)
+  if ((new_element = (ListElmt *)malloc(sizeof(ListElmt))) == NULL)
     return -1;
 
   /* Insert element into the list. */
-  new_element->data = (void*) data;
+  new_element->data = (void *)data;
 
-  if(element == NULL) {
+  if (element == NULL) {
     /* Insertion at the head of the list */
     if (list_size(list) == 0)
       list->tail = new_element;
-    
+
     new_element->next = list->head;
     list->head = new_element;
-  }
-  
-  /* Handle insertion at somewhere other than head. */
-  else {
+  } else {
+    /* Handle insertion at somewhere other than head. */
     if (element->next == NULL)
       list->tail = new_element;
 
     new_element->next = element->next;
     element->next = new_element;
-
   }
 
   list->size++;
 
   return 0;
 }
-
-
 
 #endif // SRC_LINKED_LIST_LINKED_LIST_H_
