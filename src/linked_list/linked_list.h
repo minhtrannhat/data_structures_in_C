@@ -53,7 +53,7 @@ void list_init(List *list, void (*destroy)(void *data)) {
  * removed.
  * Return 0 if succeeded and -1 if not.*/
 int list_rem_next(List *list, ListElmt *element, void **data) {
-  ListElmt        *old_element;
+  ListElmt *old_element;
 
   /* Removal from an empty list is not allowed */
   if (list_size(list) == 0)
@@ -76,7 +76,7 @@ int list_rem_next(List *list, ListElmt *element, void **data) {
     old_element = element->next;
     element->next = element->next->next;
 
-    if(element->next == NULL)
+    if (element->next == NULL)
       list->tail = element;
   }
 
@@ -86,7 +86,8 @@ int list_rem_next(List *list, ListElmt *element, void **data) {
 }
 
 /* Destroy the linked list specified by list.
- * No other operations are allowed after calling list_destroy unless list_init is called again. */
+ * No other operations are allowed after calling list_destroy unless list_init
+ * is called again. */
 void list_destroy(List *list) {
   void *data;
 
@@ -106,7 +107,7 @@ void list_destroy(List *list) {
   memset(list, 0, sizeof(List));
 }
 
-/* Insert a list element after *element* 
+/* Insert a list element after *element*
  * Pass NULL as second argument to insert at head*/
 int list_ins_next(List *list, ListElmt *element, const void *data) {
   ListElmt *new_element;
