@@ -14,7 +14,8 @@ typedef struct ListElmt_ {
 typedef struct List_ {
   int size;
 
-  /* A function to check */
+  /* A function to be used by datatypes that will derived later from linked_list
+   */
   int (*match)(const void *key1, const void *key2);
 
   /* A function to destroy
@@ -49,7 +50,7 @@ void list_init(List *list, void (*destroy)(void *data)) {
 
 /* Removes the element just after *element* from the linked list *list*.
  * If *element* is NULL, the element at the head of the list is removed.
- * Upon return, *data* points to the data stored in the element that was
+ * *data* points to the data stored in the element that was
  * removed.
  * Return 0 if succeeded and -1 if not.*/
 int list_rem_next(List *list, ListElmt *element, void **data) {
@@ -59,7 +60,7 @@ int list_rem_next(List *list, ListElmt *element, void **data) {
   if (list_size(list) == 0)
     return -1;
 
-  /* Removes at head of list */
+  /* Removes the element at head of list */
   if (element == NULL) {
     *data = list->head->data;
     old_element = list->head;
@@ -68,7 +69,7 @@ int list_rem_next(List *list, ListElmt *element, void **data) {
     if (list_size(list) == 1)
       list->tail = NULL;
   } else {
-    /* Removal at somewhere other than head */
+    /* Removal at somewhere other than right after head */
     if (element->next == NULL)
       return -1;
 
