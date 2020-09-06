@@ -27,7 +27,7 @@ typedef struct List_ {
 
 #define list_size(list) ((list)->size)
 
-#define list_head(list) ((list)->tail)
+#define list_head(list) ((list)->head)
 
 #define list_tail(list) ((list)->tail)
 
@@ -47,8 +47,46 @@ void list_init(List *list, void (*destroy)(void *data)) {
   list->tail = NULL;
 }
 
-int list_rem_next(List *list, ListElmt *element, void **data);
+/* Removes the element just after *element* from the linked list *list*.
+ * If *element* is NULL, the element at the head of the list is removed.
+ * Upon return, *data* points to the data stored in the element that was
+ * removed.
+ * Return 0 if succeeded and -1 if not.*/
+int list_rem_next(List *list, ListElmt *element, void **data) {
+  ListElmt        *old_element;
 
+  /* Removal from an empty list is not allowed */
+  if (list_size(list) == 0)
+    return -1;
+
+  /* Removes at head of list */
+  if (element == NULL) {
+    *data = list->head->data;
+    old_element = list->head;
+    list->head = list->head->next;
+
+    if (list_size(list) == 1)
+      list->tail = NULL;
+  } else {
+    /* Removal at somewhere other than head */
+    if (element->next == NULL)
+      return -1;
+
+    *data = element->next->data;
+    old_element = element->next;
+    element->next = element->next->next;
+
+    if(element->next == NULL)
+      list->tail = element;
+  }
+
+  free(old_element);
+  list->size--;
+  return 0;
+}
+
+/* Destroy the linked list specified by list.
+ * No other operations are allowed after calling list_destroy unless list_init is called again. */
 void list_destroy(List *list) {
   void *data;
 
@@ -68,10 +106,14 @@ void list_destroy(List *list) {
   memset(list, 0, sizeof(List));
 }
 
+/* Insert a list element after *element* 
+ * Pass NULL as second argument to insert at head*/
 int list_ins_next(List *list, ListElmt *element, const void *data) {
   ListElmt *new_element;
 
-  /* Allocate storage for the element. */
+  /* Allocate storage for the element.
+   * Check if there is enough space for the element.
+   * If not, return error code -1 */
   if ((new_element = (ListElmt *)malloc(sizeof(ListElmt))) == NULL)
     return -1;
 
