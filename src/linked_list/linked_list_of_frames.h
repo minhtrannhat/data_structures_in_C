@@ -28,11 +28,22 @@
 
 #include "./linked_list.h"
 
-typedef struct frames_ {
-  int *data;
-  frames_ *frame;
-} frames;
+int alloc_frame(List *frames) {
+  int frame_number, *data;
 
-//
+  if (list_size(frames) == 0) {
+    return -1; /* No frames available. */
+  } else {
+    if (list_rem_next(frames, NULL, (void**) &data) != 0)
+      return -1; /* A frame could not be retrived */
+
+    else {
+      frame_number = *data;
+      free(data);
+    }
+  }
+
+  return frame_number;
+}
 
 #endif // SRC_LINKED_LIST_LINKED_LIST_OF_FRAMES_H_
