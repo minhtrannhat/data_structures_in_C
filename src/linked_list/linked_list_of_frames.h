@@ -34,16 +34,33 @@ int alloc_frame(List *frames) {
   if (list_size(frames) == 0) {
     return -1; /* No frames available. */
   } else {
-    if (list_rem_next(frames, NULL, (void**) &data) != 0)
+    if (list_rem_next(frames, NULL, (void **)&data) != 0)
       return -1; /* A frame could not be retrived */
 
     else {
+      /* Store the number of the available frame */
       frame_number = *data;
       free(data);
     }
   }
 
   return frame_number;
+}
+
+int free_frame(List *frames, int frame_number) {
+  int *data;
+
+  /* Allocate storage for the frame number. */
+  if ((data = (int*)malloc(sizeof(int))) == NULL)
+    return -1;
+
+  /* Put the frame back in the list of available frames. */
+  *data = frame_number;
+
+  if(list_ins_next(frames, NULL, data) != 0)
+    return -1;
+
+  return 0;
 }
 
 #endif // SRC_LINKED_LIST_LINKED_LIST_OF_FRAMES_H_
