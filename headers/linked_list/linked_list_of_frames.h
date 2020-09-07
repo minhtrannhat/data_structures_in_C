@@ -57,7 +57,7 @@ int free_frame(List *frames, int frame_number) {
   /* Put the frame back in the list of available frames. */
   *data = frame_number;
 
-  if(list_ins_next(frames, NULL, data) != 0)
+  if (list_ins_next(frames, NULL, data) != 0)
     return -1;
 
   return 0;

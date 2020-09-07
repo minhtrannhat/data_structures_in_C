@@ -1,4 +1,4 @@
-#include "../src/linked_list/linked_list_of_ints.h"
+#include "../headers/linked_list/linked_list_of_ints.h"
 
 int main(void) {
   /* Initialize a linkedlist of ints */
