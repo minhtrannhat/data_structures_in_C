@@ -1,6 +1,7 @@
-#ifndef SRC_LINKED_LIST_LINKED_LIST_H_
-#define SRC_LINKED_LIST_LINKED_LIST_H_
+#ifndef HEADERS_LINKED_LIST_LINKED_LIST_H_
+#define HEADERS_LINKED_LIST_LINKED_LIST_H_
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -14,7 +15,8 @@ typedef struct ListElmt_ {
 typedef struct List_ {
   int size;
 
-  /* A function to be used by datatypes that will derived later from linked_list
+  /* A function to be used by datatypes
+   * that will derived later from linked_list
    */
   int (*match)(const void *key1, const void *key2);
 
@@ -143,4 +145,26 @@ int list_ins_next(List *list, ListElmt *element, const void *data) {
   return 0;
 }
 
-#endif // SRC_LINKED_LIST_LINKED_LIST_H_
+extern void print_list(const List *list) {
+  ListElmt *element;
+  int *data, i;
+
+  fprintf(stdout, "List size is %d\n", list_size(list));
+
+  i = 0;
+  element = list_head(list);
+
+  while (true) {
+    data = list_data(element);
+    fprintf(stdout, "list[%03d] = %03d\n", i, *data);
+
+    i++;
+
+    if (list_is_tail(element))
+      break;
+    else
+      element = list_next(element);
+  }
+}
+
+#endif // HEADERS_LINKED_LIST_LINKED_LIST_H_
