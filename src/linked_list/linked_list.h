@@ -145,26 +145,4 @@ int list_ins_next(List *list, ListElmt *element, const void *data) {
   return 0;
 }
 
-extern void print_list(const List *list) {
-  ListElmt *element;
-  int *data, i;
-
-  fprintf(stdout, "List size is %d\n", list_size(list));
-
-  i = 0;
-  element = list_head(list);
-
-  while (true) {
-    data = list_data(element);
-    fprintf(stdout, "list[%03d] = %03d\n", i, *data);
-
-    i++;
-
-    if (list_is_tail(element))
-      break;
-    else
-      element = list_next(element);
-  }
-}
-
 #endif // HEADERS_LINKED_LIST_LINKED_LIST_H_
